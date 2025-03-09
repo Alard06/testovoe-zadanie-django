@@ -22,7 +22,7 @@ git clone https://github.com/Alard06/testovoe-zadanie-django
 cd testovoe-zadanie-django
 docker-compose up --build
 ```
-
+Доступ к сервису осуществляется по адресу `http://127.0.0.1:8000/`
 ### PS:
 
 Виртуального окружение не создавал, так как в задании не было указано.
