@@ -1,23 +1,23 @@
 import httpx
 import asyncio
-import json
+from typing import Dict, List, Any
 
 
-async def get_yandex_files(public_key: str) -> list:
+async def get_yandex_files(public_key: str) -> List[Dict[str, Any]]:
     """
-    Получает список файлов из Яндекс.Диска
-    :param public_key: str - публичный ключ
-    :return: list - список файлов
+    Получает список файлов из Яндекс.Диска.
+
+    :param public_key: Публичный ключ для авторизации.
+    :return: Список файлов в формате JSON. В случае ошибки возвращает пустой словарь.
     """
     async with httpx.AsyncClient() as client:
         response = await client.get(
-            f"https://cloud-api.yandex.net/v1/disk/resources/files",
+            "https://cloud-api.yandex.net/v1/disk/resources/files",
             headers={"Authorization": f"OAuth {public_key}"},
         )
         if response.status_code == 200:
             return response.json()
-        else:
-            return {}
+        return {}
     
 # async def main():
 #     data = await get_yandex_files("")
