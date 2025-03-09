@@ -9,6 +9,8 @@ import asyncio
 from django.core.cache import cache
 from core.settings import CACHE_TTL
 from django.utils.dateparse import parse_datetime
+from typing import Any
+from django.http import HttpRequest, HttpResponse
 
 class ProfileView(TemplateView):
     model = YandexUser
@@ -46,29 +48,37 @@ class FilesView(TemplateView):
     template_name = 'yandex/files.html'
 
     @method_decorator(login_required)
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         yandex_user, created = YandexUser.objects.get_or_create(user=request.user)
         if not yandex_user.public_key:
             return render(request, self.template_name, {'files': []})
 
         sort_by = request.GET.get('sort', 'name')
-
-        cache_key = f"yandex_files_{yandex_user.public_key}_{sort_by}"
+        file_type = request.GET.get('type', None)  
+        cache_key = f"yandex_files_{yandex_user.public_key}_{sort_by}_{file_type if file_type else 'all'}"
 
         files = cache.get(cache_key)
 
         if files is None:
             files = asyncio.run(get_yandex_files(yandex_user.public_key))
             files = files.get('items', [])
+
+            if file_type:
+                files = [file for file in files if file.get('name', '').endswith(f".{file_type}")]
+
             if sort_by == 'type':
-                files.sort(key=lambda x: x.get('name', '').split('.')[-1]) 
+                files.sort(key=lambda x: x.get('name', '').split('.')[-1])
             elif sort_by == 'size':
-                files.sort(key=lambda x: x.get('size', 0))  
+                files.sort(key=lambda x: x.get('size', 0))
             elif sort_by == 'created':
-                files.sort(key=lambda x: parse_datetime(x.get('created', '')))  
+                files.sort(key=lambda x: parse_datetime(x.get('created', '')))
             else:
-                files.sort(key=lambda x: x.get('name', ''))  
+                files.sort(key=lambda x: x.get('name', ''))
 
             cache.set(cache_key, files, timeout=60 * 3)  
 
-        return render(request, self.template_name, {'files': files, 'sort_by': sort_by})
+        return render(request, self.template_name, {
+            'files': files,
+            'sort_by': sort_by,
+            'selected_type': file_type,  
+        })

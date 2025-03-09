@@ -7,10 +7,20 @@
         <!-- Ссылки для сортировки -->
         <div class="mb-3">
             <strong>Сортировать по:</strong>
-            <a href="?sort=name" class="btn btn-sm btn-outline-secondary {% if sort_by == 'name' %}active{% endif %}">Имени</a>
-            <a href="?sort=type" class="btn btn-sm btn-outline-secondary {% if sort_by == 'type' %}active{% endif %}">Типу</a>
-            <a href="?sort=size" class="btn btn-sm btn-outline-secondary {% if sort_by == 'size' %}active{% endif %}">Размеру</a>
-            <a href="?sort=created" class="btn btn-sm btn-outline-secondary {% if sort_by == 'created' %}active{% endif %}">Дате создания</a>
+            <a href="?sort=name{% if selected_type %}&type={{ selected_type }}{% endif %}" class="btn btn-sm btn-outline-secondary {% if sort_by == 'name' %}active{% endif %}">Имени</a>
+            <a href="?sort=type{% if selected_type %}&type={{ selected_type }}{% endif %}" class="btn btn-sm btn-outline-secondary {% if sort_by == 'type' %}active{% endif %}">Типу</a>
+            <a href="?sort=size{% if selected_type %}&type={{ selected_type }}{% endif %}" class="btn btn-sm btn-outline-secondary {% if sort_by == 'size' %}active{% endif %}">Размеру</a>
+            <a href="?sort=created{% if selected_type %}&type={{ selected_type }}{% endif %}" class="btn btn-sm btn-outline-secondary {% if sort_by == 'created' %}active{% endif %}">Дате создания</a>
+        </div>
+
+        <!-- Фильтрация по типу файла -->
+        <div class="mb-3">
+            <strong>Фильтровать по типу:</strong>
+            <a href="?sort={{ sort_by }}" class="btn btn-sm btn-outline-secondary {% if not selected_type %}active{% endif %}">Все</a>
+            <a href="?sort={{ sort_by }}&type=pdf" class="btn btn-sm btn-outline-secondary {% if selected_type == 'pdf' %}active{% endif %}">PDF</a>
+            <a href="?sort={{ sort_by }}&type=jpg" class="btn btn-sm btn-outline-secondary {% if selected_type == 'jpg' %}active{% endif %}">JPG</a>
+            <a href="?sort={{ sort_by }}&type=docx" class="btn btn-sm btn-outline-secondary {% if selected_type == 'docx' %}active{% endif %}">DOCX</a>
+            <a href="?sort={{ sort_by }}&type=xlsx" class="btn btn-sm btn-outline-secondary {% if selected_type == 'xlsx' %}active{% endif %}">XLSX</a>
         </div>
 
         <!-- Список файлов -->
