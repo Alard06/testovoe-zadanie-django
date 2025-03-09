@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Настройки профиля</h1>
+    <p>Имя: {{ user.username }}</p>
+    <p>Публичный ключ: {{ user.yandexuser.public_key }}</p>
+    <a href="{% url 'settings_public_key'%}">Изменить публичный ключ</a>
+{% endblock %}

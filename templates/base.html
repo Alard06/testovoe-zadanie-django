@@ -9,8 +9,9 @@
     <nav>
         <a href="{% url 'index' %}">Главная</a>
         {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}">Выход</a>
+            <a href="{% url 'files' %}">Файлы</a>
             <a href="{% url 'settings' %}">Настройки</a>
+            <a href="{% url 'logout' %}">Выход</a>
         {% else %}
             <a href="{% url 'register' %}">Регистрация</a>
             <a href="{% url 'login' %}">Вход</a>
