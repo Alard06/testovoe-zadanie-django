@@ -1,8 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Настройки профиля</h1>
-    <p>Имя: {{ user.username }}</p>
-    <p>Публичный ключ: {{ user.yandexuser.public_key }}</p>
-    <a href="{% url 'settings_public_key'%}">Изменить публичный ключ</a>
+    <div class="container mt-4">
+        <h1 class="mb-4">Настройки профиля</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Информация о профиле</h5>
+                <p class="card-text"><strong>Имя:</strong> {{ user.username }}</p>
+                <p class="card-text">
+                    <strong>Публичный ключ:</strong>
+                    {% if user.yandexuser.public_key %}
+                        {{ user.yandexuser.public_key }}
+                    {% else %}
+                        <span class="text-muted">Не указан</span>
+                    {% endif %}
+                </p>
+                <div class="mt-3">
+                    <a href="{% url 'settings_public_key' %}" class="btn btn-primary me-2">
+                        <i class="fas fa-edit"></i> Изменить публичный ключ
+                    </a>
+                    <a href="https://oauth.yandex.ru/authorize?response_type=token&client_id=0dd2d2ef36f7401bb208f903abd30350" 
+                       class="btn btn-outline-secondary" target="_blank">
+                        <i class="fas fa-key"></i> Получить публичный ключ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

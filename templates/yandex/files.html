@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Файлы</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4">Файлы</h1>
+
+        <!-- Ссылки для сортировки -->
+        <div class="mb-3">
+            <strong>Сортировать по:</strong>
+            <a href="?sort=name" class="btn btn-sm btn-outline-secondary {% if sort_by == 'name' %}active{% endif %}">Имени</a>
+            <a href="?sort=type" class="btn btn-sm btn-outline-secondary {% if sort_by == 'type' %}active{% endif %}">Типу</a>
+            <a href="?sort=size" class="btn btn-sm btn-outline-secondary {% if sort_by == 'size' %}active{% endif %}">Размеру</a>
+            <a href="?sort=created" class="btn btn-sm btn-outline-secondary {% if sort_by == 'created' %}active{% endif %}">Дате создания</a>
+        </div>
+
+        <!-- Список файлов -->
+        <div class="list-group">
+            {% for file in files %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">{{ file.name }}</h5>
+                            <small class="text-muted">Размер: {{ file.size }}</small>
+                        </div>
+                        <div>
+                            <a href="{{ file.file }}" class="btn btn-primary btn-sm" target="_blank">
+                                <i class="fas fa-download"></i> Скачать
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <small class="text-muted">
+                            Создан: {{ file.created }} | Изменен: {{ file.modified }}
+                        </small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

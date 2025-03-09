@@ -1,11 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Настройки публичного ключа</h1>
-    <p>Текущий публичный ключ: {{ user.yandexuser.public_key }}</p>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
+    <div class="container mt-4">
+        <h1 class="mb-4">Настройки публичного ключа</h1>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">
+                    <strong>Текущий публичный ключ:</strong>
+                    {% if user.yandexuser.public_key %}
+                        {{ user.yandexuser.public_key }}
+                    {% else %}
+                        <span class="text-muted">Не указан</span>
+                    {% endif %}
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Сохранить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
