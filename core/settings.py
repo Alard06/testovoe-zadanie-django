@@ -125,7 +125,7 @@ ENCRYPTION_KEY = b'JKhdyZPU218_4DCS1cO-yrgKZllChMptE-1RefPbPnA='
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:8123/1",  
+        "LOCATION": "redis://redis:6379/1",  
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
