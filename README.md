@@ -16,11 +16,13 @@
 
 ### Запуск
 
-```bash
+```
+git clone https://github.com/Alard06/testovoe-zadanie-django
+cd testovoe-zadanie-django
 docker-compose up --build
 ```
 
-PS:
+### PS:
 
 Виртуального окружение не создавал, так как в задании не было указано.
 
