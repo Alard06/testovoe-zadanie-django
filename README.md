@@ -11,3 +11,11 @@
 - Использование Docker
 - Использование sqlite3
 - Использование requests
+
+
+### Запуск
+
+```bash
+docker-compose up --build
+```
+
