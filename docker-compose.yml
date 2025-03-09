@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redisTestProject
+    ports:
+      - "8123:8123"
+    volumes:
+      - redis_data:/data
+
+  web:
+    build: .
+    container_name: django_app
+    command: /app/entrypoint.sh
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:8123/0
+
+volumes:
+  redis_data:
